@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KeyStore VIP - Shop Bán Key Cao Cấp</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="bg-animation">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fas fa-key"></i>
+        <span>KeyStore <span class="vip-text">VIP</span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#home">Trang Chủ</a></li>
+        <li><a href="#products">Sản Phẩm</a></li>
+        <li><a href="#features">Ưu Đãi</a></li>
+        <li><a href="#contact">Liên Hệ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <div id="authArea">
+          <button class="login-btn" id="openLoginBtn">Đăng Nhập</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="badge"><i class="fas fa-crown"></i> PREMIUM STORE</div>
+      <h1 class="hero-title">Mua <span class="gradient-text">Key Bản Quyền</span><br/>Giá Tốt Nhất Thị Trường</h1>
+      <p class="hero-subtitle">Cung cấp key bản quyền Windows, Office, Game, Software với giá siêu rẻ. Giao key tự động 24/7, bảo hành trọn đời.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-shopping-bag"></i> Mua Ngay
+        </button>
+        <button class="btn-secondary"><i class="fas fa-headset"></i> Hỗ Trợ 24/7</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><h3>50K+</h3><p>Khách Hàng</p></div>
+        <div class="stat"><h3>100%</h3><p>Bảo Hành</p></div>
+        <div class="stat"><h3>24/7</h3><p>Hỗ Trợ</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products" id="products">
+    <div class="section-header">
+      <h2>Sản Phẩm <span class="gradient-text">Hot</span></h2>
+      <p>Key bản quyền chính hãng, giá tốt nhất</p>
+    </div>
+    <div class="filter-tabs">
+      <button class="tab active" data-filter="all">Tất Cả</button>
+      <button class="tab" data-filter="windows">Windows</button>
+      <button class="tab" data-filter="office">Office</button>
+      <button class="tab" data-filter="game">Game</button>
+      <button class="tab" data-filter="software">Software</button>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="section-header"><h2>Tại Sao Chọn <span class="gradient-text">Chúng Tôi?</span></h2></div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-bolt"></i></div><h3>Giao Key Tức Thì</h3><p>Nhận key ngay sau khi thanh toán</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Bảo Hành Trọn Đời</h3><p>Cam kết 1 đổi 1 nếu key lỗi</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-medal"></i></div><h3>Key Chính Hãng</h3><p>100% key bản quyền</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3>Hỗ Trợ 24/7</h3><p>Support nhiệt tình</p></div>
+    </div>
+  </section>
+
+  <!-- ===== MODAL ĐĂNG NHẬP/ĐĂNG KÝ ===== -->
+  <div class="modal" id="authModal">
+    <div class="modal-content auth-modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-user-shield"></i> <span id="authTitle">Đăng Nhập</span></h3>
+        <button class="close-btn" id="closeAuth">&times;</button>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth="login">Đăng Nhập</button>
+        <button class="auth-tab" data-auth="register">Đăng Ký</button>
+      </div>
+
+      <!-- Form Đăng Nhập -->
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Tên đăng nhập</label>
+          <input type="text" id="loginUser" placeholder="Nhập username" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-lock"></i> Mật khẩu</label>
+          <input type="password" id="loginPass" placeholder="Nhập mật khẩu" required />
+        </div>
+        <button type="submit" class="btn-primary full"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
+        <p class="auth-hint">Chưa có tài khoản? <a href="#" id="switchToRegister">Đăng ký ngay</a></p>
+      </form>
+
+      <!-- Form Đăng Ký -->
+      <form class="auth-form hidden" id="registerForm">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Tên đăng nhập</label>
+          <input type="text" id="regUser" placeholder="Tối thiểu 3 ký tự" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="regEmail" placeholder="email@example.com" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-lock"></i> Mật khẩu</label>
+          <input type="password" id="regPass" placeholder="Tối thiểu 6 ký tự" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-lock"></i> Nhập lại mật khẩu</label>
+          <input type="password" id="regPass2" placeholder="Nhập lại mật khẩu" required />
+        </div>
+        <button type="submit" class="btn-primary full"><i class="fas fa-user-plus"></i> Tạo Tài Khoản</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL USER PROFILE ===== -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content profile-modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-user-circle"></i> Tài Khoản</h3>
+        <button class="close-btn" id="closeProfile">&times;</button>
+      </div>
+
+      <div class="profile-body">
+        <div class="profile-top">
+          <div class="avatar"><i class="fas fa-user"></i></div>
+          <div>
+            <h4 id="profileName">Username</h4>
+            <p id="profileEmail">email@example.com</p>
+          </div>
+        </div>
+
+        <div class="balance-card">
+          <div>
+            <p class="balance-label">Số dư hiện tại</p>
+            <h3 id="profileBalance">0đ</h3>
+          </div>
+          <button class="btn-primary" id="openDepositBtn"><i class="fas fa-plus"></i> Nạp Tiền</button>
+        </div>
+
+        <div class="profile-actions">
+          <button class="action-btn" id="openHistoryBtn"><i class="fas fa-history"></i><span>Lịch Sử Mua</span></button>
+          <button class="action-btn" id="openDepositHistoryBtn"><i class="fas fa-wallet"></i><span>Lịch Sử Nạp</span></button>
+          <button class="action-btn" id="adminPanelBtn" style="display:none;"><i class="fas fa-crown"></i><span>Quản Trị</span></button>
+          <button class="action-btn danger" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Đăng Xuất</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL NẠP TIỀN ===== -->
+  <div class="modal" id="depositModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-wallet"></i> Nạp Tiền</h3>
+        <button class="close-btn" id="closeDeposit">&times;</button>
+      </div>
+      <div class="deposit-body">
+        <p class="deposit-hint">Chọn mệnh giá hoặc nhập số tiền muốn nạp:</p>
+        <div class="quick-amounts">
+          <button class="amount-btn" data-amount="50000">50.000đ</button>
+          <button class="amount-btn" data-amount="100000">100.000đ</button>
+          <button class="amount-btn" data-amount="200000">200.000đ</button>
+          <button class="amount-btn" data-amount="500000">500.000đ</button>
+          <button class="amount-btn" data-amount="1000000">1.000.000đ</button>
+          <button class="amount-btn" data-amount="2000000">2.000.000đ</button>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-money-bill"></i> Số tiền</label>
+          <input type="number" id="depositAmount" placeholder="Nhập số tiền..." min="10000" step="1000" />
+        </div>
+        <button class="btn-primary full" id="confirmDepositBtn"><i class="fas fa-check"></i> Xác Nhận Nạp</button>
+        <p class="deposit-note"><i class="fas fa-info-circle"></i> Đây là môi trường demo, tiền sẽ được cộng ngay lập tức.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL LỊCH SỬ ===== -->
+  <div class="modal" id="historyModal">
+    <div class="modal-content history-modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-history"></i> <span id="historyTitle">Lịch Sử</span></h3>
+        <button class="close-btn" id="closeHistory">&times;</button>
+      </div>
+      <div class="history-body" id="historyBody"></div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL ADMIN ===== -->
+  <div class="modal" id="adminModal">
+    <div class="modal-content admin-modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-crown"></i> Bảng Điều Khiển Admin</h3>
+        <button class="close-btn" id="closeAdmin">&times;</button>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-admin="users">Người Dùng</button>
+        <button class="admin-tab" data-admin="orders">Đơn Hàng</button>
+        <button class="admin-tab" data-admin="revenue">Doanh Thu</button>
+      </div>
+      <div class="admin-body" id="adminBody"></div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-shopping-cart"></i> Giỏ Hàng</h3>
+        <button class="close-btn" id="closeCart">&times;</button>
+      </div>
+      <div class="cart-items" id="cartItems"><p class="empty-cart">Giỏ hàng trống</p></div>
+      <div class="cart-footer">
+        <div class="cart-total">Tổng: <span id="cartTotal">0đ</span></div>
+        <button class="btn-primary checkout-btn" id="checkoutBtn"><i class="fas fa-credit-card"></i> Thanh Toán</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-col">
+        <div class="logo"><i class="fas fa-key"></i><span>KeyStore <span class="vip-text">VIP</span></span></div>
+        <p>Shop bán key bản quyền uy tín hàng đầu Việt Nam</p>
+      </div>
+      <div class="footer-col">
+        <h4>Liên Kết</h4>
+        <a href="#">Trang chủ</a><a href="#">Sản phẩm</a><a href="#">Chính sách</a>
+      </div>
+      <div class="footer-col">
+        <h4>Liên Hệ</h4>
+        <p><i class="fas fa-envelope"></i> support@keystore.vn</p>
+        <p><i class="fas fa-phone"></i> 0123 456 789</p>
+        <div class="socials">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2024 KeyStore VIP. All rights reserved.</p></div>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script src="admin.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
