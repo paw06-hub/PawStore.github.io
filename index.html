@@ -3,496 +3,386 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KeyStore VIP - Hệ Thống Đa Trang</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>GTA Network - Thế giới của bạn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    /* ================= CSS TÍCH HỢP FULL ================= */
+    /* ===== RESET & BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --primary: #7c3aed; --primary-light: #a78bfa; --accent: #ec4899;
-      --gold: #fbbf24; --dark: #0a0a1a; --dark-2: #12122a;
-      --card-bg: rgba(255, 255, 255, 0.05); --border: rgba(255, 255, 255, 0.1);
-      --text: #ffffff; --text-muted: #a0a0b8; --success: #10b981; --danger: #ef4444;
+      --bg: #0a0a0a;
+      --bg-card: #121212;
+      --text-main: #ffffff;
+      --text-muted: #888888;
+      --accent: #ff3333; /* Đỏ đặc trưng GTA */
+      --border: #222222;
     }
-    body { font-family: 'Poppins', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0; width: 100%;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-text span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-actions { display: flex; gap: 1rem; }
+    .btn-nav {
+      padding: 0.6rem 1.5rem;
+      border: 1px solid var(--text-main);
+      background: transparent;
+      color: var(--text-main);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-nav:hover { background: var(--text-main); color: var(--bg); }
+    .btn-nav.primary { background: var(--accent); border-color: var(--accent); }
+    .btn-nav.primary:hover { background: #cc0000; border-color: #cc0000; }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(rgba(10,10,10,0.7), rgba(10,10,10,0.9)), url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+      padding: 0 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 6rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      color: #dddddd;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+    .hero-buttons { display: flex; gap: 1rem; animation: fadeInUp 1s ease 0.4s both; }
+    .btn-large {
+      padding: 1rem 2.5rem;
+      font-size: 1rem;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+    .btn-large.primary { background: var(--accent); color: white; }
+    .btn-large.primary:hover { background: #cc0000; transform: translateY(-3px); }
+    .btn-large.secondary { background: transparent; border: 1px solid white; color: white; }
+    .btn-large.secondary:hover { background: white; color: black; transform: translateY(-3px); }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== SECTION COMMON ===== */
+    .section { padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
+    .section-header { margin-bottom: 3rem; display: flex; align-items: flex-start; gap: 1.5rem; }
+    .section-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+    .section-title { font-size: 2.5rem; }
     
-    /* Background */
-    .bg-animation { position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at top, #1a1a3e 0%, var(--dark) 60%); }
-    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4; animation: float 20s infinite; }
-    .orb1 { width: 500px; height: 500px; background: var(--primary); top: -100px; left: -100px; }
-    .orb2 { width: 400px; height: 400px; background: var(--accent); bottom: 100px; right: -100px; }
-    @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(50px, 50px); } }
-
-    /* Navbar */
-    .navbar { position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(20px); background: rgba(10, 10, 26, 0.9); border-bottom: 1px solid var(--border); }
-    .nav-container { max-width: 1300px; margin: 0 auto; padding: 0.8rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 10px; font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.4rem; cursor: pointer; }
-    .logo i { color: var(--gold); font-size: 1.6rem; }
-    .vip-text { background: linear-gradient(135deg, var(--gold), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-    .nav-btn { background: none; border: none; color: var(--text-muted); font-family: inherit; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: 0.3s; }
-    .nav-btn:hover, .nav-btn.active { color: var(--gold); }
-    .cart-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 10px; cursor: pointer; font-weight: 600; position: relative; }
-    .badge-dot { position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; font-size: 0.65rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-    /* Page System */
-    .page { display: none; padding: 100px 2rem 4rem; max-width: 1300px; margin: 0 auto; min-height: 100vh; animation: fadeIn 0.4s ease; }
-    .page.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Home Page */
-    .hero-title { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; text-align: center; margin-bottom: 1rem; }
-    .search-bar { display: flex; max-width: 500px; margin: 0 auto 2rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 50px; padding: 0.4rem 0.4rem 0.4rem 1.5rem; }
-    .search-bar input { flex: 1; background: none; border: none; color: var(--text); outline: none; }
-    .search-bar button { background: var(--primary); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
-    .product-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; }
-    .product-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1rem; background: rgba(124,58,237,0.1); }
-    .price { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
-    .add-btn { padding: 0.5rem 1rem; background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; }
-
-    /* Forms & Auth */
-    .auth-box { max-width: 400px; margin: 0 auto; background: var(--card-bg); padding: 2rem; border-radius: 20px; border: 1px solid var(--border); }
-    .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-    .auth-tab { flex: 1; padding: 10px; background: none; border: none; color: var(--text-muted); font-weight: 600; cursor: pointer; }
-    .auth-tab.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 5px; }
-    .form-group input { width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; color: var(--text); outline: none; }
-    .btn-primary { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; }
-
-    /* Profile */
-    .profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; }
-    .profile-card { background: var(--card-bg); padding: 2rem; border-radius: 20px; border: 1px solid var(--border); text-align: center; }
-    .tier-badge { padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-top: 10px; }
-    .tier-Dong { background: #cd7f32; } .tier-Bac { background: #c0c0c0; color: black; } .tier-Vang { background: #ffd700; color: black; } .tier-KimCuong { background: #00ffff; color: black; }
+    /* ===== LAUNCHER SECTION ===== */
+    .launcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .launcher-text h2 { font-size: 3rem; margin-bottom: 1rem; }
+    .launcher-text p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; }
     
-    /* Admin & Tables */
-    .admin-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-    .admin-tab { padding: 0.5rem 1rem; background: none; border: 1px solid var(--border); color: var(--text); border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .admin-tab.active { background: var(--primary); border-color: var(--primary); }
-    .admin-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 10px; overflow: hidden; }
-    .admin-table th, .admin-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-    
-    /* Chat & Toast */
-    .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 900; }
-    .chat-btn { width: 60px; height: 60px; background: var(--primary); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-    .toast { position: fixed; bottom: 20px; left: 20px; padding: 1rem 1.5rem; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 10px; transform: translateX(-200%); transition: 0.4s; z-index: 2000; }
-    .toast.show { transform: translateX(0); }
-    
-    @media (max-width: 768px) {
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; align-items: flex-start; }
+    .step-num {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    .step-text h4 { font-size: 1rem; margin-bottom: 0.2rem; }
+    .step-text p { font-size: 0.85rem; color: var(--text-muted); }
+
+    .launcher-visual {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+    }
+    .launcher-visual i { font-size: 5rem; color: var(--accent); margin-bottom: 1rem; }
+    .launcher-visual h3 { font-size: 1.5rem; }
+
+    /* ===== LIFESTYLE SECTION ===== */
+    .lifestyle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .lifestyle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .lifestyle-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+    .lifestyle-card i { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+    .lifestyle-card h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+    .lifestyle-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ===== WORLD STATS ===== */
+    .world-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+    .stat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+    .stat-item h3 { font-size: 2.5rem; color: var(--accent); }
+    .stat-item p { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ===== COMMUNITY SECTION ===== */
+    .community-box {
+      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+      border: 1px solid var(--border);
+      padding: 4rem;
+      text-align: center;
+      border-radius: 12px;
+    }
+    .community-box h2 { font-size: 3rem; margin-bottom: 1rem; }
+    .community-box p { color: var(--text-muted); margin-bottom: 2rem; }
+    .discord-stats { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; font-size: 0.9rem; font-weight: 600; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .navbar { padding: 1rem 2rem; }
       .nav-links { display: none; }
-      .profile-grid { grid-template-columns: 1fr; }
-      .toast { left: 15px; right: 15px; transform: translateY(200%); }
-      .toast.show { transform: translateY(0); }
+      .launcher-grid { grid-template-columns: 1fr; }
+      .section { padding: 4rem 2rem; }
+      .hero h1 { font-size: 3rem; }
+      .world-stats { grid-template-columns: 1fr; }
+      .community-box { padding: 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="bg-animation"><div class="orb orb1"></div><div class="orb orb2"></div></div>
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="nav-container">
-      <div class="logo" onclick="window.location.hash = '#home'"><i class="fas fa-key"></i> KeyStore <span class="vip-text">VIP</span></div>
-      <div class="nav-links">
-        <button class="nav-btn" onclick="window.location.hash = '#home'">Trang Chủ</button>
-        <button class="nav-btn" id="navProfile" onclick="window.location.hash = '#profile'" style="display:none">Tài Khoản</button>
-        <button class="nav-btn" id="navAdmin" onclick="window.location.hash = '#admin'" style="display:none">Quản Trị</button>
-      </div>
-      <div style="display:flex;gap:1rem;align-items:center">
-        <button class="cart-btn" onclick="window.location.hash = '#cart'"><i class="fas fa-shopping-cart"></i> Giỏ Hàng <span class="badge-dot" id="cartCount">0</span></button>
-        <button class="cart-btn" id="navAuthBtn" onclick="window.location.hash = '#login'" style="background:var(--primary);border:none">Đăng Nhập</button>
-      </div>
+    <div class="logo-text">GTA <span>NETWORK</span></div>
+    <div class="nav-links">
+      <a href="#news">Tin tức</a>
+      <a href="#launcher">Tải xuống</a>
+      <a href="#lifestyle">Lối sống</a>
+      <a href="#community">Cộng đồng</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-nav">Đăng nhập</button>
+      <button class="btn-nav primary">Đăng ký</button>
     </div>
   </nav>
 
-  <!-- PAGE: HOME -->
-  <div id="page-home" class="page">
-    <h1 class="hero-title">Mua <span style="color:var(--gold)">Key Bản Quyền</span> Giá Rẻ</h1>
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." oninput="renderProducts()" />
-      <button><i class="fas fa-search"></i></button>
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <h1>GTA Network <br><span>Roleplay</span></h1>
+    <p>Trò chơi trực tuyến nhiều người chơi với một thế giới mở rộng lớn trong đó Bạn có thể trở thành bất cứ ai bạn muốn!</p>
+    <div class="hero-buttons">
+      <button class="btn-large primary">Tải Launcher</button>
+      <button class="btn-large secondary">Tham gia Discord</button>
     </div>
-    <div class="product-grid" id="productGrid"></div>
-  </div>
+  </header>
 
-  <!-- PAGE: LOGIN / REGISTER -->
-  <div id="page-login" class="page">
-    <div class="auth-box">
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-auth="login">Đăng Nhập</button>
-        <button class="auth-tab" data-auth="register">Đăng Ký</button>
-      </div>
-      <form id="loginForm">
-        <div class="form-group"><label>Tài khoản</label><input type="text" id="loginUser" required /></div>
-        <div class="form-group"><label>Mật khẩu</label><input type="password" id="loginPass" required /></div>
-        <button type="submit" class="btn-primary">Đăng Nhập</button>
-      </form>
-      <form id="registerForm" style="display:none">
-        <div class="form-group"><label>Tài khoản</label><input type="text" id="regUser" required /></div>
-        <div class="form-group"><label>Email</label><input type="email" id="regEmail" required /></div>
-        <div class="form-group"><label>Mật khẩu</label><input type="password" id="regPass" required /></div>
-        <button type="submit" class="btn-primary">Tạo Tài Khoản</button>
-      </form>
+  <!-- LAUNCHER SECTION -->
+  <section id="launcher" class="section">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Launcher</h2>
     </div>
-  </div>
-
-  <!-- PAGE: PROFILE -->
-  <div id="page-profile" class="page">
-    <div class="profile-grid">
-      <div class="profile-card">
-        <div style="width:80px;height:80px;background:var(--primary);border-radius:50%;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:2.5rem"><i class="fas fa-user"></i></div>
-        <h2 id="profUsername">Username</h2>
-        <div id="profTier"></div>
-        <div style="margin:1.5rem 0; padding:1rem; background:rgba(255,255,255,0.05); border-radius:10px">
-          <p style="font-size:0.8rem;color:var(--text-muted)">Số dư hiện tại</p>
-          <h2 id="profBalance" style="color:var(--gold);font-family:'Orbitron'">0đ</h2>
+    <div class="launcher-grid">
+      <div class="launcher-text">
+        <h2>Tải về.<br>Đăng nhập.<br>Vào game.</h2>
+        <p>Một launcher cho PC và Android: tự tải game, kiểm tra từng file, cập nhật khi có bản mới và đưa bạn thẳng vào máy chủ. Miễn phí.</p>
+        
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">01</span>
+            <div class="step-text">
+              <h4>Chọn nền tảng</h4>
+              <p>Máy tính Windows hoặc điện thoại Android.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">02</span>
+            <div class="step-text">
+              <h4>Cài launcher</h4>
+              <p>Launcher tự tải, kiểm tra và cập nhật dữ liệu game.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <div class="step-text">
+              <h4>Vào thành phố</h4>
+              <p>Đăng ký tài khoản, tạo nhân vật và bấm VÀO GAME.</p>
+            </div>
+          </div>
         </div>
-        <button class="btn-primary" onclick="window.location.hash = '#deposit'" style="margin-bottom:10px;background:var(--success)">Nạp Tiền</button>
-        <button class="btn-primary" onclick="openWithdraw()" style="background:var(--danger);margin-bottom:10px">Rút Tiền</button>
-        <button class="btn-primary" onclick="logout()" style="background:rgba(255,255,255,0.1)">Đăng Xuất</button>
       </div>
-      <div>
-        <h3 style="margin-bottom:1rem"><i class="fas fa-history"></i> Lịch Sử Mua Hàng</h3>
-        <div id="historyList"></div>
+      
+      <div class="launcher-visual">
+        <i class="fab fa-windows"></i>
+        <h3>Tải Game Ngay</h3>
+        <p style="color: var(--text-muted); margin-top: 1rem; margin-bottom: 2rem;">Dung lượng: 2.5 GB</p>
+        <button class="btn-large primary" style="width: 100%;">Download Launcher (PC)</button>
+        <button class="btn-large secondary" style="width: 100%; margin-top: 1rem;">Download APK (Android)</button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- PAGE: CART -->
-  <div id="page-cart" class="page">
-    <h2 style="font-family:'Orbitron';margin-bottom:2rem"><i class="fas fa-shopping-cart"></i> Giỏ Hàng Của Bạn</h2>
-    <div id="cartList" style="margin-bottom:2rem"></div>
-    <div style="background:var(--card-bg);padding:1.5rem;border-radius:15px;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <p style="color:var(--text-muted)">Tổng thanh toán:</p>
-        <h2 id="cartTotal" style="color:var(--gold);font-family:'Orbitron'">0đ</h2>
-      </div>
-      <button class="btn-primary" onclick="checkout()" style="width:auto;padding:1rem 3rem">Thanh Toán Ngay</button>
+  <!-- LIFESTYLE SECTION -->
+  <section id="lifestyle" class="section" style="background: #0d0d0d;">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Lối sống</h2>
     </div>
-  </div>
-
-  <!-- PAGE: DEPOSIT -->
-  <div id="page-deposit" class="page">
-    <div class="auth-box" style="text-align:center">
-      <h2 style="margin-bottom:1rem">Nạp Tiền Qua QR Code</h2>
-      <div class="form-group" style="text-align:left">
-        <label>Số tiền muốn nạp (VNĐ)</label>
-        <input type="number" id="depositAmount" value="50000" min="10000" step="10000" oninput="updateQR()" />
-      </div>
-      <img id="qrImage" src="" style="width:200px;height:200px;margin:1rem auto;border-radius:10px;display:none" />
-      <p id="qrContent" style="font-size:0.9rem;color:var(--text-muted);margin-bottom:1rem;display:none"></p>
-      <button class="btn-primary" id="btnConfirmDeposit" onclick="confirmDeposit()" style="display:none;background:var(--success)">Tôi Đã Chuyển Khoản</button>
-      <button class="btn-primary" onclick="updateQR()" style="margin-bottom:1rem" id="btnCreateQR">Tạo Mã QR</button>
-    </div>
-  </div>
-
-  <!-- PAGE: ADMIN -->
-  <div id="page-admin" class="page">
-    <h2 style="font-family:'Orbitron';margin-bottom:2rem"><i class="fas fa-crown" style="color:var(--gold)"></i> Quản Trị Hệ Thống</h2>
-    <div class="admin-tabs">
-      <button class="admin-tab active" onclick="renderAdminTab('users', this)">Quản Lý User</button>
-      <button class="admin-tab" onclick="renderAdminTab('keys', this)">Kho Key</button>
-      <button class="admin-tab" onclick="renderAdminTab('withdraw', this)">Duyệt Rút Tiền</button>
-    </div>
-    <div id="adminBody"></div>
-  </div>
-
-  <div class="toast" id="toast"></div>
-
-  <script>
-    /* ================= JAVASCRIPT (HASH ROUTER) ================= */
-    let DB = {
-      users: JSON.parse(localStorage.getItem('v6_users')) || [{ id: 'admin', username: 'admin', password: 'admin123', role: 'admin', balance: 100000000, totalSpent: 0 }],
-      products: JSON.parse(localStorage.getItem('v6_products')) || [
-        { id: 1, name: "Windows 11 Pro", desc: "Key vĩnh viễn", price: 350000, category: "windows", icon: "fa-windows" },
-        { id: 2, name: "Office 2021", desc: "Key vĩnh viễn", price: 450000, category: "office", icon: "fa-file-word" },
-        { id: 3, name: "GTA V", desc: "Steam Key", price: 550000, category: "game", icon: "fa-gamepad" }
-      ],
-      orders: JSON.parse(localStorage.getItem('v6_orders')) || [],
-      keys: JSON.parse(localStorage.getItem('v6_keys')) || [{ productId: 1, list: ["WIN11-AAAAA", "WIN11-BBBBB"] }],
-      withdraws: JSON.parse(localStorage.getItem('v6_withdraws')) || []
-    };
-    let session = JSON.parse(localStorage.getItem('v6_session')) || null;
-    let cart = JSON.parse(localStorage.getItem('v6_cart')) || [];
-
-    function save() { Object.keys(DB).forEach(k => localStorage.setItem('v6_' + k, JSON.stringify(DB[k]))); localStorage.setItem('v6_session', JSON.stringify(session)); localStorage.setItem('v6_cart', JSON.stringify(cart)); }
-    const getUser = () => session ? DB.users.find(u => u.id === session.id) : null;
-    const formatPrice = (p) => p.toLocaleString("vi-VN") + "đ";
+    <h3 style="font-size: 2rem; margin-bottom: 3rem;">Một thành phố. Vô vàn cách sống.</h3>
+    <p style="color: var(--text-muted); max-width: 800px; margin-bottom: 3rem;">GTA Network là máy chủ GTA San Andreas Multiplayer RPG × Roleplay của người Việt: bạn chọn trở thành ai, thành phố ghi nhớ mọi điều bạn làm.</p>
     
-    function showToast(msg) { const t = document.getElementById("toast"); t.innerHTML = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    function getTier(spent) {
-      if (spent >= 5000000) return { name: 'Kim Cương', class: 'tier-KimCuong', discount: 0.1 };
-      if (spent >= 2000000) return { name: 'Vàng', class: 'tier-Vang', discount: 0.07 };
-      if (spent >= 500000) return { name: 'Bạc', class: 'tier-Bac', discount: 0.05 };
-      return { name: 'Đồng', class: 'tier-Dong', discount: 0 };
-    }
+    <div class="lifestyle-grid">
+      <div class="lifestyle-card">
+        <i class="fas fa-briefcase"></i>
+        <h3>Nghề nghiệp & kinh tế</h3>
+        <p>Bốc vác, giao pizza, vận tải, khai thác gỗ, khai thác mỏ, vận tải thuyền. Lương theo giờ chơi vào tài khoản ngân hàng.</p>
+      </div>
+      <div class="lifestyle-card">
+        <i class="fas fa-home"></i>
+        <h3>Nhà & xe của riêng bạn</h3>
+        <p>Mua nhà, sở hữu xe với màu sơn và đồ độ riêng, gửi xe ở garage, cất đồ trong cốp.</p>
+      </div>
+      <div class="lifestyle-card">
+        <i class="fas fa-balance-scale"></i>
+        <h3>Tổ chức & pháp luật</h3>
+        <p>LSPD và LSFD với cấp bậc, tủ đồ, xe công vụ và kênh bộ đàm riêng.</p>
+      </div>
+      <div class="lifestyle-card">
+        <i class="fas fa-city"></i>
+        <h3>Cuộc sống thành phố</h3>
+        <p>Cửa hàng 24/7, ngân hàng, điện thoại, GPS, trạm thu phí và bằng lái xe.</p>
+      </div>
+      <div class="lifestyle-card">
+        <i class="fas fa-desktop"></i>
+        <h3>Một nhân vật, hai nền tảng</h3>
+        <p>Máy tính và điện thoại chơi chung một máy chủ với cùng một tài khoản.</p>
+      </div>
+      <div class="lifestyle-card">
+        <i class="fas fa-sync-alt"></i>
+        <h3>Luôn là bản mới nhất</h3>
+        <p>Launcher tự kiểm tra, sửa và cập nhật dữ liệu game — không cần cài lại.</p>
+      </div>
+    </div>
+  </section>
 
-    /* ================= ROUTER ================= */
-    function router() {
-      const hash = window.location.hash || '#home';
-      const pageId = 'page-' + hash.replace('#', '');
-      
-      // Ẩn tất cả page, hiện page hiện tại
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      const target = document.getElementById(pageId);
-      if (target) target.classList.add('active');
-      else document.getElementById('page-home').classList.add('active'); // Fallback
+  <!-- WORLD SECTION -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Thế giới</h2>
+    </div>
+    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Toàn bộ San Andreas.</h3>
+    <p style="color: var(--text-muted); max-width: 800px; margin-bottom: 2rem;">Los Santos, San Fierro, Las Venturas và vùng quê ở giữa — một bản đồ, một máy chủ, mở cửa cho cả PC và Android.</p>
+    
+    <div class="world-stats">
+      <div class="stat-item">
+        <h3>3</h3>
+        <p>Thành phố</p>
+      </div>
+      <div class="stat-item">
+        <h3>PC + Android</h3>
+        <p>Nền tảng</p>
+      </div>
+      <div class="stat-item">
+        <h3>Online · 17 người</h3>
+        <p>Máy chủ</p>
+      </div>
+    </div>
+  </section>
 
-      // Update Navbar active state
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      if (hash === '#home') document.querySelector('.nav-btn').classList.add('active');
+  <!-- COMMUNITY SECTION -->
+  <section id="community" class="section">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2 class="section-title">Cộng đồng</h2>
+    </div>
+    <div class="community-box">
+      <h2>Gặp nhau trên Discord.</h2>
+      <p>Tin tức, sự kiện, hỗ trợ người chơi và những người bạn đồng hành ở Los Santos.</p>
+      <button class="btn-large primary" style="margin-top: 1rem;"><i class="fab fa-discord"></i> Tham Gia Discord</button>
+      <div class="discord-stats">
+        <span><span style="color: var(--accent); font-size: 1.2rem;">855</span> thành viên</span>
+        <span><span style="color: #00ff00; font-size: 1.2rem;">49</span> đang online</span>
+      </div>
+    </div>
+  </section>
 
-      // Render nội dung theo trang
-      if (hash === '#home') renderProducts();
-      if (hash === '#profile') renderProfile();
-      if (hash === '#cart') renderCart();
-      if (hash === '#admin') renderAdminTab('users', document.querySelector('.admin-tab'));
-      if (hash === '#deposit') updateQR();
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 GTA Network. Bản quyền thuộc về cộng đồng.</p>
+  </footer>
 
-      // Check quyền truy cập
-      const user = getUser();
-      if ((hash === '#admin' && (!user || user.role !== 'admin')) || (hash === '#profile' && !user)) {
-        window.location.hash = '#login';
-      }
-    }
-    window.addEventListener('hashchange', router);
-    window.addEventListener('DOMContentLoaded', () => {
-      router();
-      renderAuthUI();
-    });
-
-    /* ================= AUTH ================= */
-    function renderAuthUI() {
-      const user = getUser();
-      const authBtn = document.getElementById('navAuthBtn');
-      const navProfile = document.getElementById('navProfile');
-      const navAdmin = document.getElementById('navAdmin');
-
-      if (user) {
-        authBtn.style.display = 'none';
-        navProfile.style.display = 'block';
-        navProfile.innerHTML = `<i class="fas fa-user"></i> ${user.username}`;
-        if (user.role === 'admin') navAdmin.style.display = 'block';
-      } else {
-        authBtn.style.display = 'block';
-        navProfile.style.display = 'none';
-        navAdmin.style.display = 'none';
-      }
-      document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
-    }
-
-    document.querySelectorAll('.auth-tab').forEach(t => t.onclick = () => {
-      document.querySelectorAll('.auth-tab').forEach(x => x.classList.remove('active')); t.classList.add('active');
-      const isLogin = t.dataset.auth === 'login';
-      document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
-      document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
-    });
-
-    document.getElementById('loginForm').onsubmit = (e) => {
-      e.preventDefault();
-      const u = DB.users.find(x => x.username === document.getElementById('loginUser').value && x.password === document.getElementById('loginPass').value);
-      if (u) { session = { id: u.id }; save(); showToast('Đăng nhập thành công!'); window.location.hash = '#home'; renderAuthUI(); }
-      else showToast('Sai tài khoản hoặc mật khẩu!');
-    };
-
-    document.getElementById('registerForm').onsubmit = (e) => {
-      e.preventDefault();
-      const un = document.getElementById('regUser').value;
-      if (DB.users.find(x => x.username === un)) return showToast('Tên đã tồn tại!');
-      DB.users.push({ id: 'u' + Date.now(), username: un, email: document.getElementById('regEmail').value, password: document.getElementById('regPass').value, role: 'user', balance: 0, totalSpent: 0 });
-      save(); showToast('Đăng ký thành công!'); document.querySelector('.auth-tab[data-auth="login"]').click(); e.target.reset();
-    };
-
-    window.logout = () => { session = null; save(); renderAuthUI(); window.location.hash = '#home'; showToast('Đã đăng xuất'); };
-
-    /* ================= PRODUCTS & CART ================= */
-    function renderProducts() {
-      const grid = document.getElementById('productGrid');
-      const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
-      
-      let filtered = DB.products.filter(p => p.name.toLowerCase().includes(search));
-      grid.innerHTML = filtered.map(p => {
-        const stock = DB.keys.find(k => k.productId === p.id)?.list.length || 0;
-        return `
-        <div class="product-card">
-          <div class="product-icon"><i class="fab ${p.icon}" style="color:var(--primary)"></i></div>
-          <h3>${p.name}</h3>
-          <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:10px">${p.desc}</p>
-          <div style="color:var(--success);font-size:0.8rem;margin-bottom:1rem">Kho: ${stock} key</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto">
-            <span class="price">${formatPrice(p.price)}</span>
-            <button class="add-btn" onclick="addToCart(${p.id})" ${stock === 0 ? 'disabled style="opacity:0.5"' : ''}><i class="fas fa-cart-plus"></i> Mua</button>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    window.addToCart = (id) => {
-      const ex = cart.find(i => i.id === id);
-      if (ex) ex.qty++; else cart.push({ ...DB.products.find(p => p.id === id), qty: 1 });
-      save(); renderAuthUI(); showToast('Đã thêm vào giỏ!');
-    }
-
-    function renderCart() {
-      const list = document.getElementById('cartList');
-      if (cart.length === 0) { list.innerHTML = '<p style="color:var(--text-muted)">Giỏ hàng trống!</p>'; document.getElementById('cartTotal').textContent = '0đ'; return; }
-      
-      list.innerHTML = cart.map(i => `
-        <div style="background:var(--card-bg);padding:1rem;border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between">
-          <span>${i.name} (x${i.qty})</span>
-          <span style="color:var(--gold)">${formatPrice(i.price * i.qty)}</span>
-        </div>
-      `).join('');
-      
-      const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-      document.getElementById('cartTotal').textContent = formatPrice(total);
-    }
-
-    window.checkout = () => {
-      const user = getUser();
-      if (!user) { showToast('Vui lòng đăng nhập!'); window.location.hash = '#login'; return; }
-      if (cart.length === 0) return showToast('Giỏ hàng trống!');
-      
-      const tier = getTier(user.totalSpent || 0);
-      let total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-      total = total - (total * tier.discount);
-
-      if (user.balance < total) return showToast('Số dư không đủ! Vui lòng nạp thêm.');
-      
-      // Check Kho & Trừ tiền
-      for(let item of cart) {
-        const stock = DB.keys.find(k => k.productId === item.id)?.list.length || 0;
-        if (stock < item.qty) return showToast(`Sản phẩm ${item.name} không đủ hàng!`);
-      }
-
-      user.balance -= total; user.totalSpent = (user.totalSpent || 0) + total;
-      
-      cart.forEach(item => {
-        const storeItem = DB.keys.find(k => k.productId === item.id);
-        for(let i=0; i<item.qty; i++) {
-          DB.orders.push({ id: Date.now()+Math.random(), userId: user.id, name: item.name, price: item.price, key: storeItem.list.shift(), time: new Date().toLocaleString('vi-VN') });
-        }
-      });
-      
-      cart = []; save(); renderAuthUI(); window.location.hash = '#profile'; showToast('Thanh toán thành công!');
-    }
-
-    /* ================= PROFILE ================= */
-    function renderProfile() {
-      const user = getUser(); if(!user) return;
-      const tier = getTier(user.totalSpent || 0);
-      
-      document.getElementById('profUsername').textContent = user.username;
-      document.getElementById('profBalance').textContent = formatPrice(user.balance);
-      document.getElementById('profTier').innerHTML = `<span class="tier-badge ${tier.class}">${tier.name} (Giảm ${tier.discount*100}%)</span>`;
-      
-      const hist = DB.orders.filter(o => o.userId === user.id).reverse();
-      document.getElementById('historyList').innerHTML = hist.length === 0 ? '<p style="color:var(--text-muted)">Chưa có đơn hàng nào.</p>' : hist.map(o => `
-        <div style="background:var(--card-bg);padding:1rem;border-radius:10px;margin-bottom:10px;border-left:3px solid var(--success)">
-          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><b>${o.name}</b> <span style="color:var(--gold)">${formatPrice(o.price)}</span></div>
-          <div style="font-size:0.8rem;color:var(--text-muted)">${o.time}</div>
-          <div style="background:rgba(16,185,129,0.1);padding:5px 10px;border-radius:5px;margin-top:10px;font-family:monospace;color:var(--success);display:flex;justify-content:space-between">
-            <span>${o.key}</span>
-            <button onclick="navigator.clipboard.writeText('${o.key}');showToast('Đã copy!')" style="background:var(--success);border:none;color:white;padding:2px 5px;border-radius:3px;cursor:pointer">Copy</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.openWithdraw = () => {
-      const amt = prompt("Nhập số tiền muốn rút (Tối thiểu 50k):", "50000");
-      const user = getUser();
-      if (!amt || isNaN(amt) || amt < 50000) return showToast('Số tiền rút không hợp lệ!');
-      if (user.balance < amt) return showToast('Số dư không đủ!');
-      user.balance -= amt;
-      DB.withdraws.push({ id: Date.now(), username: user.username, amount: parseInt(amt), status: 'pending' });
-      save(); renderProfile(); showToast('Đã gửi yêu cầu rút, chờ Admin duyệt!');
-    }
-
-    /* ================= DEPOSIT (QR) ================= */
-    window.updateQR = () => {
-      const amt = document.getElementById('depositAmount').value;
-      if (!amt || amt < 10000) return showToast('Tối thiểu 10.000đ');
-      const user = getUser();
-      document.getElementById('qrImage').src = `https://img.vietqr.io/image/MB-0000000000-compact2.png?amount=${amt}&addInfo=NAP ${user.username}`;
-      document.getElementById('qrImage').style.display = 'block';
-      document.getElementById('qrContent').style.display = 'block';
-      document.getElementById('qrContent').textContent = `Nội dung: NAP ${user.username}`;
-      document.getElementById('btnConfirmDeposit').style.display = 'block';
-      document.getElementById('btnCreateQR').style.display = 'none';
-    }
-    window.confirmDeposit = () => {
-      const amt = parseInt(document.getElementById('depositAmount').value);
-      showToast('Đang kiểm tra giao dịch...');
-      setTimeout(() => {
-        const user = getUser(); user.balance += amt; save();
-        showToast(`Nạp thành công ${formatPrice(amt)}!`); window.location.hash = '#profile';
-        document.getElementById('btnConfirmDeposit').style.display = 'none';
-        document.getElementById('btnCreateQR').style.display = 'block';
-        document.getElementById('qrImage').style.display = 'none';
-        document.getElementById('qrContent').style.display = 'none';
-      }, 1500);
-    }
-
-    /* ================= ADMIN ================= */
-    window.renderAdminTab = (tab, btn) => {
-      if(btn) {
-        document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      }
-      const body = document.getElementById('adminBody');
-      
-      if (tab === 'users') {
-        body.innerHTML = `<table class="admin-table"><thead><tr><th>Username</th><th>Số Dư</th><th>Hạng</th><th>Hành động</th></tr></thead>
-        <tbody>${DB.users.map(u => {
-          const tier = getTier(u.totalSpent || 0);
-          return `<tr>
-            <td>${u.username}</td><td style="color:var(--gold)">${formatPrice(u.balance)}</td>
-            <td><span class="tier-badge ${tier.class}">${tier.name}</span></td>
-            <td><button onclick="adminEditBal('${u.id}')" style="background:var(--primary);border:none;color:white;padding:5px 10px;border-radius:5px;cursor:pointer">Sửa Ví</button></td>
-          </tr>`;
-        }).join('')}</tbody></table>`;
-      } 
-      else if (tab === 'keys') {
-        body.innerHTML = DB.products.map(p => {
-          const stock = DB.keys.find(k => k.productId === p.id)?.list.length || 0;
-          return `<div style="background:var(--card-bg);padding:1rem;border-radius:10px;margin-bottom:1rem">
-            <div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>${p.name}</b> <span>Kho: ${stock}</span></div>
-            <textarea id="key_${p.id}" style="width:100%;height:60px;padding:5px;border-radius:5px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:white" placeholder="Nhập key (mỗi dòng 1 key)"></textarea>
-            <button onclick="addKeys(${p.id})" style="margin-top:5px;background:var(--success);border:none;color:white;padding:5px 10px;border-radius:5px;cursor:pointer">Thêm Key</button>
-          </div>`;
-        }).join('');
-      }
-      else if (tab === 'withdraw') {
-        body.innerHTML = `<table class="admin-table"><thead><tr><th>User</th><th>Số Tiền</th><th>Trạng thái</th><th>Duyệt</th></tr></thead>
-        <tbody>${DB.withdraws.map(w => `<tr>
-          <td>${w.username}</td><td style="color:var(--gold)">${formatPrice(w.amount)}</td>
-          <td>${w.status === 'pending' ? '<span style="color:var(--gold)">Chờ duyệt</span>' : '<span style="color:var(--success)">Đã duyệt</span>'}</td>
-          <td>${w.status === 'pending' ? `<button onclick="approveW(${w.id})" style="background:var(--success);border:none;color:white;padding:3px 8px;border-radius:3px;cursor:pointer">Duyệt</button>` : ''}</td>
-        </tr>`).join('')}</tbody></table>`;
-      }
-    }
-    window.adminEditBal = (id) => {
-      const u = DB.users.find(x => x.id === id);
-      const v = prompt(`Nhập số dư mới cho ${u.username}:`, u.balance);
-      if (v && !isNaN(v)) { u.balance = parseInt(v); save(); renderAdminTab('users'); showToast('Cập nhật thành công!'); }
-    }
-    window.addKeys = (id) => {
-      const val = document.getElementById('key_'+id).value;
-      const newKeys = val.split('\n').map(k=>k.trim()).filter(k=>k);
-      if(newKeys.length === 0) return;
-      let s = DB.keys.find(k => k.productId === id);
-      if(!s) { s = { productId: id, list: [] }; DB.keys.push(s); }
-      s.list.push(...newKeys);
-      save(); renderAdminTab('keys'); showToast(`Đã thêm ${newKeys.length} key!`);
-    }
-    window.approveW = (id) => {
-      DB.withdraws.find(x => x.id === id).status = 'approved'; save(); renderAdminTab('withdraw'); showToast('Đã duyệt!');
-    }
-  </script>
 </body>
 </html>
